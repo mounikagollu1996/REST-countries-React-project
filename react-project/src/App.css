@@ -1,0 +1,17 @@
+
+.main {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px !important
+}
+.header {
+    height: 80px;
+    font-size: 14px !important;
+    font-weight: bold !important
+}
+.modeChange {
+    justify-content: end;
+}
