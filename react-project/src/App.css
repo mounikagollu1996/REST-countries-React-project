@@ -15,3 +15,16 @@
 .modeChange {
     justify-content: end;
 }
+.country-box {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5rem;
+    height: 300px;
+    cursor: pointer;
+    background-color: #2B3945;
+    width: 270px;
+    border-radius: 8px
+}
+.country-wrapper {
+    width: -webkit-fill-available;
+}

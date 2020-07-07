@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { CountryService } from '../services/CountryService';
 import Display from './Display';
+import CountryDisplay from './countryDisplay';
 
 const countryService = new CountryService();
 
@@ -8,52 +9,87 @@ class RestCountries extends Component {
     constructor(props) {
         super(props); 
             this.state = { 
-                countries: [],
-                q: ''
+                countries: countryService.getCountries(),
+                q: '',
+                currentIndex: '',
+                isCountrySelected: false,
+                countryData: [],
             }; 
         this.filterList = this.filterList.bind(this);    
         this.hanldeOnChange = this.hanldeOnChange.bind(this); 
-        this.handleOnDetails = this.handleOnDetails.bind(this);           
+        this.handleShowDetails = this.handleShowDetails.bind(this);  
+        this.handleShowBorderDetails = this.handleShowBorderDetails.bind(this);
+        this.handleOnReset = this.handleOnReset.bind(this);
     };
+    handleOnReset() {
+        this.setState(() => ({isCountrySelected: false}));
+    }
+    handleShowBorderDetails(e) {
+        const border = e.target.getAttribute('value')
+        let countryData = this.state.countryData;
+        countryData = this.state.countries.filter(country => {
+            if(country.alpha3Code === border){
+                return country;
+            }
+        });
+        this.setState(() => ({ countryData: countryData }));
+        this.setState(() => ({isCountrySelected: true}));   
+    }
+
+    handleShowDetails(e) {
+        const value = e.currentTarget.getAttribute('value');
+        console.log(value);
+        this.setState({currentIndex: value}, () => {
+            let countryData = this.state.countryData;
+            countryData = this.state.countries.filter((country,index) => {
+                let value = parseInt(this.state.currentIndex);
+                if(value === index){
+                   return country;
+                }
+            });
+            this.setState(() => ({ countryData: countryData }));
+            this.setState(() => ({isCountrySelected: true}));
+        })
+    }
 
     hanldeOnChange(event) {
         const q = event.target.value.toLowerCase();
         this.setState({q}, () => this.filterList());
     }
 
-    handleOnDetails = (e,data) =>{
-        console.log(e);
-    }
-
     filterList() {
         let countries = this.state.countries;
         let q = this.state.q;
-    
         countries = countries.filter(function(country) {
           return country.name.toLowerCase().indexOf(q) !== -1;
         });
         this.setState(() => ({ countries: countries }));
-      }
+    }
 
     loadCountries(){
         this.setState(() => ({ countries: countryService.getCountries() }));
-    }
+    };
 
-    componentDidMount() {
-        this.loadCountries();
-    }
-    
+    // componentDidMount() {
+    //     this.loadCountries();    
+    // }
+  
     render() { 
         return ( 
             <div>
-                <form className="form-inline d-flex justify-content-center md-form form-sm mt-0">
-                    <i className="fas fa-search" aria-hidden="true"></i>
-                    <input className="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
-                        aria-label="Search" onChange={this.hanldeOnChange}></input>
-                </form>
+                {this.state.isCountrySelected ?
+                <CountryDisplay country={this.state.countryData}
+                color={this.props.color}
+                countries={this.state.countries}
+                showBorderDetails={this.handleShowBorderDetails}
+                onReset={this.handleOnReset}
+                /> 
+                :
                 <Display color={this.props.color}
                 countries={this.state.countries}
-                onDetails={this.handleOnDetails}/>
+                showDetails={this.handleShowDetails}
+                onChange={this.hanldeOnChange}/>
+                }   
             </div>    
         );
     }
