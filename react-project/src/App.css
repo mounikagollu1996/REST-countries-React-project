@@ -28,3 +28,33 @@
 .country-wrapper {
     width: -webkit-fill-available;
 }
+.region {
+    width: 155px !important;
+    position: absolute;
+    right: 6rem;
+    top: 8rem;
+    background-color: #2B3945 !important;
+    border: 1px solid #2B3945 !important;
+    color: #ffffff !important
+}
+.regionOption {
+    background-color: #2B3945 !important;
+}
+.form-inline {
+    width: 100% !important;
+    position: absolute;
+    left: 7rem;
+}
+.search {
+    width: 30% !important;
+    height: 40px !important;
+    position: absolute;
+    left: 0;
+    top: 0.1rem;
+    background-color: #2B3945 !important;
+    border: 1px solid #2B3945 !important;
+}
+.search::placeholder {
+    color: #ffffff !important;
+    padding-left: 1rem
+}

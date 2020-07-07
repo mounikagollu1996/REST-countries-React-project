@@ -3,9 +3,8 @@ import React from 'react';
 const Display = (props) => {
    return (
        <div>
-           <form className="form-inline d-flex justify-content-center md-form form-sm mt-0">
-                    <i className="fas fa-search" aria-hidden="true"></i>
-                    <input className="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
+           <form className="form-inline d-flex justify-content-center md-form form-sm">
+                    <input className="search form-control form-control-sm" type="text" placeholder="Search for a country..."
                         aria-label="Search" onChange={props.onChange}/>
             </form>
            <table className="mt-5" style={props.color ? {color: 'white'} : {color: 'black'}}> 

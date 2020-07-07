@@ -13,7 +13,6 @@ class App extends Component {
     this.handleToggleColor = this.handleToggleColor.bind(this);
   } 
 
-
   handleToggleColor() {
     this.setState(prevState => ({
       dark: !prevState.dark

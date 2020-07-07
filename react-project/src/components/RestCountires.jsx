@@ -2,14 +2,18 @@ import React, { Component } from 'react';
 import { CountryService } from '../services/CountryService';
 import Display from './Display';
 import CountryDisplay from './countryDisplay';
+import { RegionService } from '../services/RegionService'
+import RegionSelect from './RegionSelect';
 
 const countryService = new CountryService();
+const regionService = new RegionService();
+
 
 class RestCountries extends Component {
     constructor(props) {
         super(props); 
             this.state = { 
-                countries: countryService.getCountries(),
+                countries: [],
                 q: '',
                 currentIndex: '',
                 isCountrySelected: false,
@@ -20,7 +24,30 @@ class RestCountries extends Component {
         this.handleShowDetails = this.handleShowDetails.bind(this);  
         this.handleShowBorderDetails = this.handleShowBorderDetails.bind(this);
         this.handleOnReset = this.handleOnReset.bind(this);
+        this.handleRegion = this.handleRegion.bind(this);
     };
+    handleRegion(e) {
+        const value = e.target.value;
+        let countryData = this.state.countryData;
+        let countries = countryService.getCountries();
+        countryData = countries.filter(country => {
+            if(country.region === value){
+                return country;
+            }
+        });
+        this.setState(() => ({countries: countryData}));
+    };
+
+    getUniqueRegions() {
+        let regions = [];
+        const countries = countryService.getCountries()
+        regions = countries.map(country => {
+            return country.region
+        });
+        const uniqueRegions = Array.from(new Set(regions));
+        return uniqueRegions;
+    }
+
     handleOnReset() {
         this.setState(() => ({isCountrySelected: false}));
     }
@@ -38,7 +65,6 @@ class RestCountries extends Component {
 
     handleShowDetails(e) {
         const value = e.currentTarget.getAttribute('value');
-        console.log(value);
         this.setState({currentIndex: value}, () => {
             let countryData = this.state.countryData;
             countryData = this.state.countries.filter((country,index) => {
@@ -65,15 +91,13 @@ class RestCountries extends Component {
         });
         this.setState(() => ({ countries: countries }));
     }
+    loadCountries() {
+        this.setState(() => ({countries: countryService.getCountries()}));
+    }
 
-    loadCountries(){
-        this.setState(() => ({ countries: countryService.getCountries() }));
-    };
-
-    // componentDidMount() {
-    //     this.loadCountries();    
-    // }
-  
+    componentDidMount() {
+        this.loadCountries();
+    }
     render() { 
         return ( 
             <div>
@@ -85,10 +109,16 @@ class RestCountries extends Component {
                 onReset={this.handleOnReset}
                 /> 
                 :
-                <Display color={this.props.color}
-                countries={this.state.countries}
-                showDetails={this.handleShowDetails}
-                onChange={this.hanldeOnChange}/>
+                <div>
+                    <RegionSelect
+                    onRegionChanged={this.handleRegion}
+                    regions={this.getUniqueRegions()}
+                    />
+                    <Display color={this.props.color}
+                    countries={this.state.countries}
+                    showDetails={this.handleShowDetails}
+                    onChange={this.hanldeOnChange}/>
+                </div>    
                 }   
             </div>    
         );
