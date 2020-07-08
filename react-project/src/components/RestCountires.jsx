@@ -54,7 +54,8 @@ class RestCountries extends Component {
     handleShowBorderDetails(e) {
         const border = e.target.getAttribute('value')
         let countryData = this.state.countryData;
-        countryData = this.state.countries.filter(country => {
+        let countries = countryService.getCountries();
+        countryData = countries.filter(country => {
             if(country.alpha3Code === border){
                 return country;
             }
@@ -67,7 +68,8 @@ class RestCountries extends Component {
         const value = e.currentTarget.getAttribute('value');
         this.setState({currentIndex: value}, () => {
             let countryData = this.state.countryData;
-            countryData = this.state.countries.filter((country,index) => {
+            let countries = countryService.getCountries();
+            countryData = countries.filter((country,index) => {
                 let value = parseInt(this.state.currentIndex);
                 if(value === index){
                    return country;
@@ -100,7 +102,7 @@ class RestCountries extends Component {
     }
     render() { 
         return ( 
-            <div>
+            <div style={{width: '100%'}}>
                 {this.state.isCountrySelected ?
                 <CountryDisplay country={this.state.countryData}
                 color={this.props.color}
@@ -113,6 +115,7 @@ class RestCountries extends Component {
                     <RegionSelect
                     onRegionChanged={this.handleRegion}
                     regions={this.getUniqueRegions()}
+                    color={this.props.color}
                     />
                     <Display color={this.props.color}
                     countries={this.state.countries}

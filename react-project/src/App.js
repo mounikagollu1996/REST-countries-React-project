@@ -25,7 +25,7 @@ class App extends Component {
         <Header title={this.state.title}
         toggleColor={this.handleToggleColor}
         color={this.state.dark}/>
-        <div className="main" style={this.state.dark ? {backgroundColor: ' #202C37'} : {backgroundColor: '#f9f9f9'}}>
+        <div className="main" style={this.state.dark ? {backgroundColor: ' #202C37'} : {backgroundColor: '#f8f8f8'}}>
         <RestCountries color={this.state.dark}/>
         </div>
       </React.Fragment>
