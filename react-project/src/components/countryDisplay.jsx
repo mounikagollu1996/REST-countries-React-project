@@ -4,12 +4,12 @@ const CountryDisplay  = (props) => {
     return(
         <div className="country-wrapper" style={props.color ? {color: 'white'} : {color: 'black'}}>
             <button className="back-button" onClick={props.onReset}>back</button>
-            <div className="row d-flex flex-row m-auto mt-5" style={{width: '70%',justifyContent: 'space-between'}}>
+            <div className="row d-flex flex-row flex-wrap m-auto mt-5" style={{width: '70%',justifyContent: 'space-between'}}>
                 <div className="image-box">
                     <img src={props.country[0].flag} style={{width: 'inherit', height: 'inherit'}} alt="country flag"/>
                 </div>
                 <div className="description d-flex flex-column" style={{width: '40%',justifyContent: 'center', alignItems: 'center'}}>
-                    <div className="content d-flex flex-row">
+                    <div className="content d-flex flex-row flex-wrap">
                         <div className="wrapper d-flex flex-column">
                             <h4>{props.country[0].name}</h4>
                             <p className="mb-0">Native Name: {props.country[0].nativeName}</p>
